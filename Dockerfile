@@ -1,15 +1,14 @@
-# Python 3.11.4をベースにしたイメージを使用し、install-browserという名前のビルドステージを開始
-FROM python:3.11.4-slim-bullseye as install-browser
+# Python 3.12をベースにしたイメージを使用し、install-browserという名前のビルドステージを開始
+FROM python:3.12-slim-bullseye as install-browser
 
 # aptパッケージマネージャーを更新し、Chromiumとそのドライバーをインストール
 RUN apt-get update \
     && apt-get satisfy -y \
-    "chromium, chromium-driver (>= 115.0)" \
+    "chromium, chromium-driver (>= 116.0)" \
     && chromium --version && chromedriver --version
 
 # Firefox ESRとwgetをインストールし、geckodriverをダウンロードして配置
-RUN apt-get install -y firefox-esr wget \
-    && wget https://github.com/mozilla/geckodriver/releases/download/v0.33.0/geckodriver-v0.33.0-linux64.tar.gz \
+RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.34.0/geckodriver-v0.34.0-linux64.tar.gz \
     && tar -xvzf geckodriver* \
     && chmod +x geckodriver \
     && mv geckodriver /usr/local/bin/
